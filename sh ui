@@ -1,0 +1,96 @@
+-- UI Library - Symphony Hub Framework (SHF)
+
+local uiLibrary = {} -- Create the main UI library table
+
+-- Table to store all created tabs
+uiLibrary.tabs = {}
+
+-- **Utility Functions**
+
+-- Deep Copy Function: Creates a copy of a table, including nested tables
+function uiLibrary.deepCopy(original)
+    local copy = {}
+    for key, value in pairs(original) do
+        if type(value) == "table" then
+            copy[key] = uiLibrary.deepCopy(value) -- Recursively copy nested tables
+        else
+            copy[key] = value
+        end
+    end
+    return copy
+end
+
+-- Create Base UI Elements:
+function uiLibrary.Create(className, defaultProperties)
+    local instance = Instance.new(className)
+
+    -- Set default properties for the UI element
+    local properties = uiLibrary.deepCopy(defaultProperties)
+
+    -- Merge custom properties with default properties (custom properties override defaults)
+    for key, value in pairs(properties) do
+        instance[key] = value
+    end
+
+    return instance
+end
+
+-- Base UI Element Styles:
+uiLibrary.style = {
+    TextLabel = {
+        BackgroundTransparency = 1,
+        Font = Enum.Font.Gotham,
+        TextColor3 = Color3.new(1, 1, 1),
+        TextSize = 14,
+        TextXAlignment = Enum.TextXAlignment.Left
+    },
+    TextButton = {
+        BackgroundTransparency = 1,
+        Font = Enum.Font.Gotham,
+        TextColor3 = Color3.new(1, 1, 1),
+        TextSize = 14,
+        TextXAlignment = Enum.TextXAlignment.Center
+    },
+    ImageLabel = {
+        BackgroundTransparency = 1,
+        ImageColor3 = Color3.new(1, 1, 1)
+    },
+    ScrollingFrame = {
+        BackgroundTransparency = 1,
+        ScrollBarThickness = 0
+    }
+}
+
+-- Create Main UI Window:
+function uiLibrary.CreateWindow(windowProperties)
+    local window = uiLibrary.Create("ScreenGui", {
+        Name = windowProperties.Name,
+        Parent = coreGui,
+        ResetOnSpawn = false,
+        ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    })
+
+    -- ... (Creates and styles various UI elements like the main frame, title bar, etc.)
+end
+
+-- Create Navigation Tabs:
+function uiLibrary.CreateTab(tabName, tabImage)
+    -- ... (Creates and styles a tab button, adds it to the tab list, and manages tab visibility)
+end
+
+-- Tab Element Creation Functions:
+function uiLibrary.CreateLabel(text)
+    -- ... (Creates and styles a TextLabel)
+end
+
+function uiLibrary.CreateButton(text, callback)
+    -- ... (Creates and styles a TextButton with a callback function)
+end
+
+function uiLibrary.CreateParagraph(title, content)
+    -- ... (Creates a paragraph with a title and content using TextLabels)
+end
+
+-- ... (Additional functions for creating UI elements like sliders, toggles, dropdowns, etc.)
+
+return uiLibrary -- Return the UI library table
